@@ -18,6 +18,37 @@ struct node {
 	struct node *next;
 };
 
+typedef struct node * NODE;
+
+NODE getKthNode(NODE startNode, int K)
+{
+	if (startNode == NULL)
+		return NULL;
+	NODE temp = startNode;
+	while ((K > 1) && (temp != NULL)){
+		temp = temp->next;
+		K--;
+	}
+	return temp;
+}
+
 struct node * removeEveryKthNode(struct node *head, int K) {
-	return NULL;
+	NODE temp = head;
+	
+	if ((K <= 1) || (head == NULL))
+		return NULL;
+	else {
+		while (temp != NULL){
+			temp = getKthNode(temp, K - 1);
+			if (temp == NULL)
+				return head;
+			else if (temp->next == NULL)
+				return head;
+			else {
+				temp->next = (temp->next)->next;
+				temp = temp->next;
+			}
+		}
+	}
+	return head;
 }
